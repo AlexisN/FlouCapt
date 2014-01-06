@@ -1,9 +1,6 @@
 #!/usr/bin/python2
 
-import time
 import cv2
-import sys
-from cv2.cv import *
 
 class PictureProcessing:
 
@@ -29,10 +26,10 @@ class PictureProcessing:
             #axes = ((x2-x1)/2, (y2-y1)/2)
             #cv2.ellipse(img, center, axes, 0, 360 , 0,(127, 255, 0), 2)
 
-            crop_img = img[x1:x2, y1:y2] # Crop from x1, y1 -> x2, y2
-            blur = cv2.GaussianBlur(crop_img,(51,51),0)
-            img[x1:x2, y1:y2] = blur
+            crop_img = img[y1:y2, x1:x2] # Crop from x1, y1 -> x2, y2
+            crop_img = cv2.GaussianBlur(crop_img,(51,51),0)
 
+            img[y1:y2, x1:x2] = crop_img
 
         date = time.strftime('%d-%m-%y %H:%M',time.localtime())
         file_name = date + ".png"
