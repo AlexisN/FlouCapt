@@ -6,7 +6,7 @@ class PictureProcessing:
 
 
     @staticmethod
-    def detect( img ):
+    def detectFaces( img ):
         #cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_alt.xml")
         cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_default.xml")
 
@@ -19,7 +19,7 @@ class PictureProcessing:
 
 
     @staticmethod
-    def box(rects, img):
+    def smoothFaces(rects, img):
 
         for x1, y1, x2, y2 in rects:
             #center = ((x2+x1)/2,(y1+y2)/2)
@@ -31,6 +31,4 @@ class PictureProcessing:
 
             img[y1:y2, x1:x2] = crop_img
 
-        date = time.strftime('%d-%m-%y %H:%M',time.localtime())
-        file_name = date + ".png"
-        cv2.imwrite(file_name, img)
+        return img
