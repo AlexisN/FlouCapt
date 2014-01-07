@@ -15,28 +15,29 @@ def savePicture( img ):
         os.makedirs( folder )
 
 
-    file_name = date + " " + hour + ".png"
+    file_name = date + " " + hour + ".jpg"
     sucessSave = cv2.imwrite(folder + file_name, img)
 
     #if the picture recording failed
     if not sucessSave:
         print "The picture could not be saved here : "+ folder+file_name
+    else:
+        print "Picture has been saved at "+date + " "+ hour
 
 
 
 if __name__ == '__main__':
 
-    file_name = "img/lena.png"
+    while True:
 
+        ok, img = Camera.getPicture()
 
-    img = cv2.imread(file_name)
-    if img == None:
-        print("Image was not loaded.")
-        sys.exit(-1)
+        #if capture picture successful
+        if ok:
+            rects = PictureProcessing.detectFaces( img )
+            img   = PictureProcessing.smoothFaces( rects, img )
 
+            savePicture( img )
 
-
-    rects = PictureProcessing.detectFaces( img )
-    img   = PictureProcessing.smoothFaces( rects, img )
-
-    savePicture( img )
+        # 30 seconds pause
+        time.sleep(30)
