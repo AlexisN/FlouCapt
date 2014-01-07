@@ -22,9 +22,6 @@ class PictureProcessing:
     def smoothFaces(rects, img):
 
         for x1, y1, x2, y2 in rects:
-            #center = ((x2+x1)/2,(y1+y2)/2)
-            #axes = ((x2-x1)/2, (y2-y1)/2)
-            #cv2.ellipse(img, center, axes, 0, 360 , 0,(127, 255, 0), 2)
 
             crop_img = img[y1:y2, x1:x2] # Crop from x1, y1 -> x2, y2
             crop_img = cv2.GaussianBlur(crop_img,(51,51),0)
