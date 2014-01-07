@@ -2,7 +2,7 @@
 
 from PictureProcessing import *
 from Camera import *
-import sys, time, os, cv2
+import sys, time, os, cv2, ConfigParser
 
 def savePicture( img ):
     date = time.strftime('%d-%m-%Y', time.localtime())
@@ -25,32 +25,15 @@ def savePicture( img ):
         print "Picture has been saved at "+date + "-"+ hour
 
 def loadConfig():
+    config = ConfigParser.ConfigParser()
+    config.read('config.cfg')
+
     try:
-        file = open("config.cfg", "r")
-    except IOError:
-        print 'The config file "config.cfg" cannot be open'
-
-    else:
-
-        for line in file:
-            line = line.rstrip('\n\r')
-            tab = line.split("=")
-
-            if len(tab) != 2:
-                continue
-            #convert string to unicole for use isdecimal() method
-            tab[1] = unicode(tab[1], 'utf-8')
-
-            if tab[0]=="frequencyPictures" and tab[1].isdecimal():
-                print "load frequencyPictures"
-                freqPictures = int(tab[1])
-
-
-        file.close()
-
-    #frequencyPictures is a 20 seconds by default
-    if freqPictures == None:
+        freqPictures = config.getint('DEFAULT','frequencyPictures')
+        print 'The config file has be loaded with success...'
+    except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
         freqPictures = 10
+        print 'The config file "config.cfg" cannot be opened\nor the data of "config.cfg" cannot be loaded'
 
     return freqPictures
 
@@ -58,7 +41,7 @@ def loadConfig():
 if __name__ == '__main__':
 
 
-    loadConfig()
+    freqPictures = loadConfig()
 
     while True:
 
@@ -70,5 +53,5 @@ if __name__ == '__main__':
             img   = PictureProcessing.smoothFaces( rects, img )
             savePicture( img )
 
-        # 30 seconds pause
-        time.sleep(30)
+        # pause
+        time.sleep(freqPictures)
