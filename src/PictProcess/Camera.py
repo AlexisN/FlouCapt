@@ -7,8 +7,10 @@ class Camera:
 
     @staticmethod
     def getPicture():
-        #vc = cv2.VideoCapture("http://192.168.0.9/videostream.asf?user=guest&pwd=guest")
-        vc = cv2.VideoCapture(0)
+
+        vc = cv2.VideoCapture("http://192.168.1.26/videostream.cgi?user=admin&pwd=&.mjpg")
+        #vc = cv2.VideoCapture(0)
+
 
 
         if vc.isOpened(): # try to get the first frame
