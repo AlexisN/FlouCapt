@@ -3,12 +3,12 @@
 from PictureProcessing import *
 from Camera import *
 import sys, time, os, cv2, ConfigParser
-#1234test123444
+#
 
 def savePicture( img ):
     """
-    Save the picture passed in parameter
-    """
+Save the picture passed in parameter
+"""
 
     date = time.strftime('%d-%m-%Y', time.localtime())
     hour = time.strftime('%H:%M:%S', time.localtime())
@@ -31,8 +31,8 @@ def savePicture( img ):
 
 def loadConfig():
     """
-    Load a parameters since a config file (config.cfg)
-    """
+Load a parameters since a config file (config.cfg)
+"""
     config = ConfigParser.ConfigParser()
     config.read('config.cfg')
 
@@ -48,9 +48,9 @@ def loadConfig():
 
 if __name__ == '__main__':
     """
-    The main function.
-    Start a picture processing application.
-    """
+The main function.
+Start a picture processing application.
+"""
 
     freqPictures = loadConfig()
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
         #if capture picture successful
         if ok:
             rects = PictureProcessing.detectFaces( img )
-            img   = PictureProcessing.smoothFaces( rects, img )
+            img = PictureProcessing.smoothFaces( rects, img )
             savePicture( img )
 
         # pause
