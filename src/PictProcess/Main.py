@@ -3,7 +3,7 @@
 from PictureProcessing import *
 from Camera import *
 import sys, time, os, cv2, ConfigParser
-#test123444
+#1234test123444
 
 def savePicture( img ):
     """
