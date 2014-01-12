@@ -11,7 +11,8 @@ class cleaner:
 	    	"""delete the folder containing the old image of four days, according to the law"""
 
 	    	d = date.today()-timedelta(days=4)
-	    	folder = "out/"+ d 
+		dd = d.strftime('%Y-%m-%d')
+	    	folder = "out/"+ dd
 	    	shutil.rmtree(folder)
 
 	    @staticmethod
@@ -24,7 +25,7 @@ class cleaner:
 	    	for filename in glob.glob(r"out/"+dd+"/*"): 
 				f.write(filename)
 				os.remove(filename)
-			f.close()
+		f.close()
 
 
 
