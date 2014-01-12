@@ -34,17 +34,20 @@ The application will have to be compatible with different operating systems like
 
 
 <h3>Start application</h3>
-- To start PictureProcessing application, you just need to run start_PictureProcessing.sh
-<code>sh start_PictureProcessing.sh </code>
+ - To start PictureProcessing application, you just need to run start_PictureProcessing.sh
+
+```sh
+sh start_PictureProcessing.sh
+```
 - To stop PictureProcessing application, just press Ctrl+C
 
 <h3>Documentation</h3>
 
 To compile the documentation, run :
-<code>
+```sh
 cd src/PictProcess/doc
 make html
-</code>
+```
 
 <ul>
 <li>The documentation are available in HTML in src/PictProcess/doc/build/html</li>
@@ -53,4 +56,4 @@ make html
 
 
 <h3>Output</h3>
-The blurring pictures are saved in folder : <code>src/PictProcess/out/<date>/</code>
+The blurring pictures are saved in folder : <code>src/PictProcess/out/\<date\>/</code>
