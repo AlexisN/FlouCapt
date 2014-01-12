@@ -4,7 +4,12 @@ from PictureProcessing import *
 from Camera import *
 import sys, time, os, cv2, ConfigParser
 
+
 def savePicture( img ):
+    """
+    Save the picture passed in parameter
+    """
+
     date = time.strftime('%d-%m-%Y', time.localtime())
     hour = time.strftime('%H:%M:%S', time.localtime())
 
@@ -25,6 +30,9 @@ def savePicture( img ):
         print "Picture has been saved at "+date + "-"+ hour
 
 def loadConfig():
+    """
+    Load a parameters since a config file (config.cfg)
+    """
     config = ConfigParser.ConfigParser()
     config.read('config.cfg')
 
@@ -39,7 +47,10 @@ def loadConfig():
 
 
 if __name__ == '__main__':
-
+    """
+    The main function.
+    Start a picture processing application.
+    """
 
     freqPictures = loadConfig()
 

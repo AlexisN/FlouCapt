@@ -27,7 +27,30 @@ The application will have to be compatible with different operating systems like
 <li>OpenCV</li>
 <li>Python</li>
 <li>Apache</li>
-<li>HTML5 & PHP</li>
+<li>HTML5</li>
 <li>Framework Django</li>
 <li>Jquery</li>
 </ul>
+
+
+<h3>Start application</h3>
+- To start PictureProcessing application, you just need to run start_PictureProcessing.sh
+<code>sh start_PictureProcessing.sh </code>
+- To stop PictureProcessing application, just press Ctrl+C
+
+<h3>Documentation</h3>
+
+To compile the documentation, run :
+<code>
+cd src/PictProcess/doc
+make html
+</code>
+
+<ul>
+<li>The documentation are available in HTML in src/PictProcess/doc/build/html</li>
+<li>The documentation are generated with [Sphinx](http://sphinx-doc.org/)
+</ul>
+
+
+<h3>Output</h3>
+The blurring pictures are saved in folder : <code>src/PictProcess/out/<date>/</code>

@@ -2,11 +2,14 @@
 
 import cv2
 
-class Camera:
 
+class Camera:
+    """Class that allow obtain a picture since a image source (webcam or ip camera)"""
 
     @staticmethod
     def getPicture():
+        """Return a picture since a webcam or an ip camera
+        """
 
         vc = cv2.VideoCapture("http://192.168.1.26/videostream.cgi?user=admin&pwd=&.mjpg")
         #vc = cv2.VideoCapture(0)

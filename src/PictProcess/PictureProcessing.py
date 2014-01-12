@@ -7,6 +7,9 @@ class PictureProcessing:
 
     @staticmethod
     def detectFaces( img ):
+        """
+        Detect a human faces in the picture
+        """
         #cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_alt.xml")
         cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_default.xml")
 
@@ -20,7 +23,9 @@ class PictureProcessing:
 
     @staticmethod
     def smoothFaces(rects, img):
-
+        """
+        Apply a blur where human faces has been detected
+        """
         for x1, y1, x2, y2 in rects:
 
             crop_img = img[y1:y2, x1:x2] # Crop from x1, y1 -> x2, y2
