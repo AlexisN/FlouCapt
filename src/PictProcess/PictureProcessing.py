@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 
-import cv2
+import cv2, time, os
 
 class PictureProcessing:
 
@@ -35,10 +35,11 @@ class PictureProcessing:
 
         return img
 
+    @staticmethod
     def savePicture( img ):
-    """
-    Save the picture passed in parameter
-    """
+        """
+        Save the picture passed in parameter
+        """
 
         date = time.strftime('%Y-%m-%d', time.localtime())
         hour = time.strftime('%H:%M:%S', time.localtime())
@@ -47,7 +48,7 @@ class PictureProcessing:
 
         #if the folder doesn't exist
         if not os.path.isdir( folder ):
-        os.makedirs( folder )
+            os.makedirs( folder )
 
 
         file_name = date + "-" + hour + ".jpg"
