@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/bin/env python2
 
 import cv2
 
@@ -12,8 +12,8 @@ class Camera:
         """
 
 
-        vc = cv2.VideoCapture( link )
-        #vc = cv2.VideoCapture(0)
+        #vc = cv2.VideoCapture( link )
+        vc = cv2.VideoCapture(0)
 
 
 

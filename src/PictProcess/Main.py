@@ -1,9 +1,9 @@
-#!/usr/bin/python2
+#!/bin/env python2
 
+from Cleaner import *
 from PictureProcessing import *
 from Camera import *
 import time, cv2, ConfigParser
-#
 
 
 def loadConfig() :
@@ -34,11 +34,9 @@ if __name__ == '__main__':
     """
 
     freqPictures, link = loadConfig()
-
     while True:
 
         ok, img = Camera.getPicture( link )
-        print link
 
         #if capture picture successful
         if ok:
@@ -49,10 +47,6 @@ if __name__ == '__main__':
         # pause
         time.sleep(freqPictures)
 
-    if hour == "00:00:00":
-        cleaner.delete()
-        cleaner.zipper()
-    else:
-        print "Error delete the folder containing the picture of 4 days"
+        #Cleaner.run()
 
 

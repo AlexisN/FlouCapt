@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/env sh
 
 cd src/PictProcess
-/usr/bin/python2 Main.py
+/bin/env python2 Main.py
