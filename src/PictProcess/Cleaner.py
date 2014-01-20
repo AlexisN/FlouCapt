@@ -15,7 +15,7 @@ class Cleaner:
 
         @staticmethod
         def delete():
-            """delete the folder containing the old image of four days, according to the law"""
+            """Delete the folder which contains the old pictures. Here, it deletes the pictures which are older than 4 days"""
 
             d = date.today() - timedelta(days=4)
             dd = d.strftime('%Y-%m-%d')
@@ -24,7 +24,7 @@ class Cleaner:
 
         @staticmethod
         def zipper():
-            """archive picture of the last days to save space"""
+            """Archive pictures of the same day in the same folder"""
 
             d = date.today()-timedelta(days=1)
             dd = d.strftime('%Y-%m-%d')
