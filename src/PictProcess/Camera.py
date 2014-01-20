@@ -11,9 +11,13 @@ class Camera:
         """Return a picture since a webcam or an ip camera
         """
 
+        #
+        try:
+            var = int(link)
+        except ValueError:
+            var = link
 
-        #vc = cv2.VideoCapture( link )
-        vc = cv2.VideoCapture(0)
+        vc = cv2.VideoCapture( var )
 
 
 
