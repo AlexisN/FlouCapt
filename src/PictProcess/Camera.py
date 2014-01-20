@@ -4,11 +4,11 @@ import cv2
 
 
 class Camera:
-    """Class that allow obtain a picture since a image source (webcam or ip camera)"""
+    """This class allows to get a picture from a webcam/ipwebcam"""
 
     @staticmethod
     def getPicture( link ):
-        """Return a picture since a webcam or an ip camera
+        """return a picture from a stream of an webcam/ipwebcam
         """
 
         #
