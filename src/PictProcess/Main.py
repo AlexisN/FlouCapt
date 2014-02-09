@@ -43,7 +43,8 @@ if __name__ == '__main__':
             rects = PictureProcessing.detectFaces( img )
             img = PictureProcessing.smoothFaces( rects, img )
             PictureProcessing.savePicture( img )
-
+            #fichier = open(Current, "w")
+            #fichier.write( img )
         # pause
         time.sleep(freqPictures)
 
