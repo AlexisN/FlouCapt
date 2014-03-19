@@ -1,5 +1,5 @@
 <?php 
- $file = fopen('picture.txt', 'r') or die("can't open file"); 
+ $file = fopen('picture.txt', 'r'); 
  $line = fgets($file); 
  echo($line);
  fclose($file); 
