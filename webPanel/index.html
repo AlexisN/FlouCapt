@@ -8,19 +8,19 @@
 		<link rel="stylesheet" href="css/style.css" />
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<!--<script type="text/javascript" src="http://ricostacruz.com/jquery.transit/jquery.transit.min.js"></script>-->
-        <script type="text/javascript" >
+        	<script type="text/javascript" >
             
-            function chargeData (){ 
+            	function chargeData (){ 
             	 var picture = $.ajax({
  				 url: "x.php",
  				 async: false}).responseText;
              	 return picture;}
 
-            function switchData (){
-            	var image = $("body");
+        	function switchData (){
+            	 var image = $("body");
 
 			   image.fadeOut(1000, function () {
-                image.css("background-image", "url('"+chargeData()+"')");
+                 image.css("background-image", "url('"+chargeData()+"')");
 	   		   image.fadeIn(1000);});
 
 
