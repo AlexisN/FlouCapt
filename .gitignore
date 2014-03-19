@@ -1,3 +1,4 @@
 *.pyc
 src/PictProcess/out/
+src/PictProcess/tests/img
 

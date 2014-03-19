@@ -54,7 +54,6 @@ if __name__ == '__main__':
             img = PictureProcessing.smoothFaces( rects, img )
             PictureProcessing.savePicture( img )
 
-
         if not quit:
             # pause
             time.sleep(freqPictures)
