@@ -54,6 +54,12 @@ class PictureProcessing:
 
         file_name = date + "-" + hour + ".jpg"
         sucessSave = cv2.imwrite(folder + file_name, img)
+        
+        
+        file = open("/var/www/FlouCapt2/picture.txt", "w")
+        file.write("/var/floucapt/"+ date + "/" + file_name)
+        file.close()
+        
 
         #if the picture recording failed
         if not sucessSave:
