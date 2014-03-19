@@ -1,0 +1,19 @@
+@charset 'UTF-8';
+
+/*
+	Overflow 1.1 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+/*********************************************************************************/
+/* Basic                                                                         */
+/*********************************************************************************/
+
+	body
+	{
+		background: url('../images/photos/port.jpg') no-repeat;
+		background-size: cover;
+		background-position: center 0;
+		background-attachment: fixed;
+	}
