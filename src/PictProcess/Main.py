@@ -3,7 +3,7 @@
 from Cleaner import *
 from PictureProcessing import *
 from Camera import *
-import time, cv2, ConfigParser
+import time, cv2, ConfigParser, signal
 
 
 def loadConfig() :
@@ -26,15 +26,25 @@ def loadConfig() :
 
 
 
+def signal_handler(signal, frame):
+    global quit
+    quit = True
+
+
 
 if __name__ == '__main__':
     """
     The main function.
     Start a picture processing application.
     """
+    global quit
+    quit = False
+    signal.signal(signal.SIGINT, signal_handler)
+
 
     freqPictures, link = loadConfig()
-    while True:
+
+    while not quit:
 
         ok, img = Camera.getPicture( link )
 
@@ -44,8 +54,10 @@ if __name__ == '__main__':
             img = PictureProcessing.smoothFaces( rects, img )
             PictureProcessing.savePicture( img )
 
-        # pause
-        time.sleep(freqPictures)
+
+        if not quit:
+            # pause
+            time.sleep(freqPictures)
 
         #Cleaner.run()
 

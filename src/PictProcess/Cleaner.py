@@ -5,7 +5,7 @@ import shutil
 import zipfile
 
 class Cleaner:
-           """This class allows to delete the oldest picture and allows to archive the new ones"""
+        """This class allows to delete the oldest picture and allows to archive the new ones"""
 
         @staticmethod
         def run():

@@ -12,6 +12,7 @@ class PictureProcessing:
         """
         #cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_alt.xml")
         cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_default.xml")
+        #cascade = cv2.CascadeClassifier("haarcascades/src/PictProcess/haarcascades/haarcascade_eye_tree_eyeglasses.xml")
 
         rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20))
 
@@ -44,7 +45,7 @@ class PictureProcessing:
         date = time.strftime('%Y-%m-%d', time.localtime())
         hour = time.strftime('%H:%M:%S', time.localtime())
 
-        folder = "out/"+ date + "/"
+        folder = "/var/floucapt/"+ date + "/"
 
         #if the folder doesn't exist
         if not os.path.isdir( folder ):
