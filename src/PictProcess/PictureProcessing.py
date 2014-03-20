@@ -6,16 +6,17 @@ class PictureProcessing:
 
 
     @staticmethod
-    def detectFaces( img ):
+    def detectFaces( logger,  img ):
         """
         Detect a human faces in the picture
         """
         #cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_alt.xml")
         cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_default.xml")
+        #cascade = cv2.CascadeClassifier("/usr/share/opencv/haarcascades/haarcascade_frontalface_default.xml")
         #cascade = cv2.CascadeClassifier("haarcascades/src/PictProcess/haarcascades/haarcascade_eye_tree_eyeglasses.xml")
 
         if cascade.empty() :
-            print "The cascade classifier can't be loaded"
+            logger.error( "The cascade classifier can't be loaded" )
             sys.exit(2)
 
         rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20))
@@ -41,7 +42,7 @@ class PictureProcessing:
         return img
 
     @staticmethod
-    def savePicture( img ):
+    def savePicture( logger, img ):
         """
         Save the picture passed in parameter
         """
@@ -60,14 +61,29 @@ class PictureProcessing:
         sucessSave = cv2.imwrite(folder + file_name, img)
 
 
+        #--------------------------------------------------------------------
+        # Temporary
+        global oldPic
+        try:
+            oldPic
+        except NameError:
+            oldPic = ""
 #        file = open("/var/www/FlouCapt2/picture.txt", "w")
-#        file.write("/var/floucapt/"+ date + "/" + file_name)
-#        file.close()
+        try:
+            file = open("picture.txt", "w")
+            file.write("Picture/"+ date + "/" + file_name + "\n")
+            file.write(oldPic)
+            file.close()
+        except (RuntimeError, TypeError, NameError, IOError):
+            pass
+
+        oldPic = "Picture/"+ date + "/" + file_name
+        #--------------------------------------------------------------------
 
 
         #if the picture recording failed
         if not sucessSave:
-            print "The picture could not be saved here : "+ folder+file_name
+            logger.error("The picture could not be saved here : "+ folder+file_name )
         else:
-            print "Picture has been saved at "+date + "-"+ hour
+            logger.info( "Picture has been saved at "+date + "-"+ hour "   in file : " + folder+file_name )
 

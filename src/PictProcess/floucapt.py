@@ -4,6 +4,7 @@ from Cleaner import *
 from PictureProcessing import *
 from Camera import *
 from daemon import Daemon
+from Logger import Logger
 import time, sys, cv2, ConfigParser, signal
 
 
@@ -33,7 +34,7 @@ def signal_handler(signal, frame):
 
 
 
-def run():
+def run(logger):
     """
     The main function.
     Start a picture processing application.
@@ -41,6 +42,7 @@ def run():
     global quit
     quit = False
     signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
 
 
     freqPictures, link = loadConfig()
@@ -51,9 +53,9 @@ def run():
 
         #if capture picture successful
         if ok:
-            rects = PictureProcessing.detectFaces( img )
+            rects = PictureProcessing.detectFaces( logger, img )
             img = PictureProcessing.smoothFaces( rects, img )
-            PictureProcessing.savePicture( img )
+            PictureProcessing.savePicture( logger, img )
 
         if not quit:
             # pause
@@ -69,22 +71,17 @@ class DaemonImpl(Daemon):
     This class is a concrete implementation of abstract
     daemon.
     '''
-    def __init__(self, pidfile):
-        Daemon.__init__(self, pidfile)
+    def __init__(self, pidfile, logger):
+        Daemon.__init__(self, pidfile, stdout='/tmp/floucapt.log', stderr='/tmp/floucapt.log')
         self.quit = False
+        self.logger = logger
 
     def signal_handler(self, signal, frame):
         self.quit = True
 
     def run(self):
-        #while True:
-            # Logging in a terminal here is useless because
-            # we are in a daemon! To see logs, we must log
-            # in a file
-            #logging.debug('processing...')
-            #print ('processing...')
-            #run()
         signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
 
         freqPictures, link = loadConfig()
 
@@ -94,9 +91,9 @@ class DaemonImpl(Daemon):
 
             #if capture picture successful
             if ok:
-                rects = PictureProcessing.detectFaces( img )
+                rects = PictureProcessing.detectFaces( self.logger, img )
                 img = PictureProcessing.smoothFaces( rects, img )
-                PictureProcessing.savePicture( img )
+                PictureProcessing.savePicture( self.logger, img )
 
             if not self.quit:
                 # pause
@@ -108,10 +105,12 @@ class DaemonImpl(Daemon):
 
 def main(argv):
 
-    daemon = DaemonImpl('/tmp/floucapt.pid')
+    logger = Logger()
+    daemon = DaemonImpl('/tmp/floucapt.pid', logger)
 
     if len(argv) == 2:
         if 'start' == argv[1]:
+
                 daemon.start()
         elif 'stop' == argv[1]:
                 daemon.stop()
@@ -120,7 +119,7 @@ def main(argv):
         elif 'status' == argv[1]:
                 daemon.status()
         elif 'no-daemon' == argv[1]:
-                run()
+                run(logger)
         else:
             print 'Unknown command'
             sys.exit(2)
