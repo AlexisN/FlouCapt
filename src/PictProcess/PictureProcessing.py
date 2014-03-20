@@ -1,6 +1,6 @@
 #!/bin/env python2
 
-import cv2, time, os
+import cv2, time, os, sys
 
 class PictureProcessing:
 
@@ -13,6 +13,10 @@ class PictureProcessing:
         #cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_alt.xml")
         cascade = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_default.xml")
         #cascade = cv2.CascadeClassifier("haarcascades/src/PictProcess/haarcascades/haarcascade_eye_tree_eyeglasses.xml")
+
+        if cascade.empty() :
+            print "The cascade classifier can't be loaded"
+            sys.exit(2)
 
         rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20))
 
@@ -54,12 +58,12 @@ class PictureProcessing:
 
         file_name = date + "-" + hour + ".jpg"
         sucessSave = cv2.imwrite(folder + file_name, img)
-        
-        
-        file = open("/var/www/FlouCapt2/picture.txt", "w")
-        file.write("/var/floucapt/"+ date + "/" + file_name)
-        file.close()
-        
+
+
+#        file = open("/var/www/FlouCapt2/picture.txt", "w")
+#        file.write("/var/floucapt/"+ date + "/" + file_name)
+#        file.close()
+
 
         #if the picture recording failed
         if not sucessSave:

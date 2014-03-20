@@ -69,7 +69,7 @@ class DaemonImpl(Daemon):
     This class is a concrete implementation of abstract
     daemon.
     '''
-    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+    def __init__(self, pidfile):
         Daemon.__init__(self, pidfile)
         self.quit = False
 
@@ -107,7 +107,6 @@ class DaemonImpl(Daemon):
 
 
 def main(argv):
-    #run()
 
     daemon = DaemonImpl('/tmp/floucapt.pid')
 
