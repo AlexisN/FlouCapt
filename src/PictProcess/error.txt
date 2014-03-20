@@ -1,0 +1,9 @@
+
+Id of errors :
+==============
+
+error = 1  : The picture retrieve by the camera is not valid
+error = 2  : Unable to contact the camera
+error = 3  : The cascade classifier can't be loaded
+error = 4  : The folder doesn't exist and could not be created
+error = 5  : The picture could not be saved here

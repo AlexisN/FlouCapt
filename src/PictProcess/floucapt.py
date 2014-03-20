@@ -8,7 +8,7 @@ from Logger import Logger
 import time, sys, cv2, ConfigParser, signal
 
 
-def loadConfig() :
+def loadConfig(logger) :
     """
     Load a parameters since a config file (config.cfg)
     """
@@ -19,11 +19,12 @@ def loadConfig() :
     try:
         freqPictures = config.getint('DEFAULT','frequencyPictures')
         link = config.get('DEFAULT','link')
-        print 'The config file has be loaded with success...'
+        logger.info( 'The config file has be loaded with success...' )
     except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
         freqPictures = 10
         link = 0
-        print 'The config file "config.cfg" cannot be opened\nor the data of "config.cfg" cannot be loaded'
+        logger.error(   """The config file "config.cfg" cannot be opened
+                           or the data of "config.cfg" cannot be loaded""" )
     return freqPictures, link
 
 
@@ -45,17 +46,29 @@ def run(logger):
     signal.signal(signal.SIGTERM, signal_handler)
 
 
-    freqPictures, link = loadConfig()
+    freqPictures, link = loadConfig(logger)
 
     while not quit:
-
-        ok, img = Camera.getPicture( link )
+        error = 0
+        value, img = Camera.getPicture( logger, link )
 
         #if capture picture successful
-        if ok:
-            rects = PictureProcessing.detectFaces( logger, img )
-            img = PictureProcessing.smoothFaces( rects, img )
-            PictureProcessing.savePicture( logger, img )
+        if value == 0:
+            value, rects = PictureProcessing.detectFaces( logger, img )
+            if value == 0:
+                img = PictureProcessing.smoothFaces( rects, img )
+                value = PictureProcessing.savePicture( logger, img )
+                if value != 0:
+                    error = value
+                    PictureProcessing.writeTxtFileError(error)
+            else:
+                error = value
+                PictureProcessing.writeTxtFileError(error)
+        else:
+            error = value
+            PictureProcessing.writeTxtFileError(error)
+
+
 
         if not quit:
             # pause
@@ -83,14 +96,14 @@ class DaemonImpl(Daemon):
         signal.signal(signal.SIGINT, self.signal_handler)
         signal.signal(signal.SIGTERM, self.signal_handler)
 
-        freqPictures, link = loadConfig()
+        freqPictures, link = loadConfig(logger)
 
         while not self.quit:
 
-            ok, img = Camera.getPicture( link )
+            img = Camera.getPicture( link )
 
             #if capture picture successful
-            if ok:
+            if img != None:
                 rects = PictureProcessing.detectFaces( self.logger, img )
                 img = PictureProcessing.smoothFaces( rects, img )
                 PictureProcessing.savePicture( self.logger, img )

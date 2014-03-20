@@ -17,14 +17,18 @@ class PictureProcessing:
 
         if cascade.empty() :
             logger.error( "The cascade classifier can't be loaded" )
-            sys.exit(2)
+            return 3, []
 
         rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20))
 
         if len(rects) == 0:
-            return []
+            return 0, []
         rects[:, 2:] += rects[:, :2]
-        return rects
+
+
+#       value = 0  : Ok
+#       value = 3  : The cascade classifier can't be loaded
+        return 0, rects
 
 
     @staticmethod
@@ -47,6 +51,8 @@ class PictureProcessing:
         Save the picture passed in parameter
         """
 
+        value = 0
+
         date = time.strftime('%Y-%m-%d', time.localtime())
         hour = time.strftime('%H:%M:%S', time.localtime())
 
@@ -55,35 +61,61 @@ class PictureProcessing:
         #if the folder doesn't exist
         if not os.path.isdir( folder ):
             os.makedirs( folder )
+            if not os.path.isdir( folder ):
+                value = 4
 
 
         file_name = date + "-" + hour + ".jpg"
         sucessSave = cv2.imwrite(folder + file_name, img)
 
 
-        #--------------------------------------------------------------------
-        # Temporary
+
+        #if the picture recording failed
+        if not sucessSave:
+            value = 5
+            logger.error("The picture could not be saved here : "+ folder+file_name )
+        else:
+            logger.info( "Picture has been saved at "+date + "-" + hour + "   in file : " + folder+file_name )
+            PictureProcessing.writeTxtFile(date, file_name)
+
+
+
+
+#       value = 0  : Ok
+#       value = 4  : The folder doesn't exist and could not be created
+#       value = 5  : The picture could not be saved here
+        return value
+
+
+    @staticmethod
+    def writeTxtFile(date, fileName) :
         global oldPic
         try:
             oldPic
         except NameError:
             oldPic = ""
-#        file = open("/var/www/FlouCapt2/picture.txt", "w")
+
         try:
+#        file = open("/var/www/FlouCapt2/picture.txt", "w")
             file = open("picture.txt", "w")
-            file.write("Picture/"+ date + "/" + file_name + "\n")
+            file.write("Picture/"+ date + "/" + fileName + "\n")
             file.write(oldPic)
             file.close()
         except (RuntimeError, TypeError, NameError, IOError):
             pass
 
-        oldPic = "Picture/"+ date + "/" + file_name
-        #--------------------------------------------------------------------
+        oldPic = "Picture/"+ date + "/" + fileName
+
+    @staticmethod
+    def writeTxtFileError(error) :
+
+        try:
+#        file = open("/var/www/FlouCapt2/picture.txt", "w")
+            file = open("picture.txt", "w+")
+            file.write( str(error) )
+            file.close()
+        except (RuntimeError, TypeError, NameError, IOError):
+            pass
 
 
-        #if the picture recording failed
-        if not sucessSave:
-            logger.error("The picture could not be saved here : "+ folder+file_name )
-        else:
-            logger.info( "Picture has been saved at "+date + "-"+ hour "   in file : " + folder+file_name )
 
