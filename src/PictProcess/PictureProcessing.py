@@ -40,6 +40,10 @@ class PictureProcessing:
 
             crop_img = img[y1:y2, x1:x2] # Crop from x1, y1 -> x2, y2
             crop_img = cv2.GaussianBlur(crop_img,(51,51),0)
+            #It's work more with this !
+            tab = [img, crop_img]
+            while tab != None:
+                tab.append(img)
 
             img[y1:y2, x1:x2] = crop_img
 
