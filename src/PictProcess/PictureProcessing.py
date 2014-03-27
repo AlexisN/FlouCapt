@@ -64,8 +64,8 @@ class PictureProcessing:
         date = time.strftime('%Y-%m-%d', time.localtime())
         hour = time.strftime('%H:%M:%S', time.localtime())
 
-        #folder = "/var/floucapt/"+ date + "/"
-        folder = "out/"+ date + "/"
+        folder = "/var/www/FlouCapt2/Picture/"+ date + "/"
+#        folder = "out/"+ date + "/"
 
         #if the folder doesn't exist
         if not os.path.isdir( folder ):
@@ -103,9 +103,9 @@ class PictureProcessing:
             oldPic = ""
 
         try:
-#            file = open("/var/www/FlouCapt2/picture.txt", "w")
-            file = open("picture.txt", "w")
-            file.write("Picture/"+ date + "/" + fileName + "\n")
+            file = open("/var/www/FlouCapt2/conf/picture.txt", "w")
+#            file = open("picture.txt", "w")
+            file.write("../FlouCapt2/Picture/"+ date + "/" + fileName + "|")
             file.write(oldPic)
             file.close()
         except (RuntimeError, TypeError, NameError, IOError):
@@ -117,8 +117,8 @@ class PictureProcessing:
     def writeTxtFileError(error) :
 
         try:
-#            file = open("/var/www/FlouCapt2/picture.txt", "w")
-            file = open("picture.txt", "w+")
+            file = open("/var/www/fTest/conf/picture.txt", "w")
+#            file = open("picture.txt", "w+")
             file.write( str(error) )
             file.close()
         except (RuntimeError, TypeError, NameError, IOError):
