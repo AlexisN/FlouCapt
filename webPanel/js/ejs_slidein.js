@@ -1,3 +1,9 @@
+/**
+*	FlouCapt ejs_slidein.js
+*	https://github.com/AlexisN/FlouCapt
+*	
+*	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
+*/
 if(!document.all && document.getElementById)
          ejs_hauteur = window.innerHeight-400;
  else
@@ -38,7 +44,6 @@ if(!document.all && document.getElementById)
  
  var slide_tempo;
  slide_url_image = 'images/pub.png';
- slide_url_click = 'https://www.google.fr/';
  slide_x = -290;
  slide_ismoving = false;
 

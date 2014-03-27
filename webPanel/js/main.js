@@ -1,5 +1,15 @@
+/**
+*	FlouCapt main.js
+*	https://github.com/AlexisN/FlouCapt
+*	
+*	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
+*/
 var tmp = "";
-function loadData (){ 
+var x_res = window.innerWidth;
+var y_res = window.innerHeight;
+
+function loadData (){
+
     var tmp = "";
     $.ajax({
         url: window.location.pathname + "transition.php",
@@ -35,7 +45,6 @@ function manageError(status){
 
         case 0:
         // Error file config
-
         bannerPoster('File config');
         break;
         case '1':
@@ -73,8 +82,6 @@ function manageError(status){
 function switchData(pLink, cLink){
 
     $('div#error').fadeOut();
-    var x_res = window.innerWidth;
-    var y_res = window.innerHeight;
     document.getElementById('picOne').style.width = x_res - 50 + 'px';
     document.getElementById('picOne').style.height = y_res - 50 + 'px';
 
@@ -86,21 +93,27 @@ function switchData(pLink, cLink){
         $("a#dwd").attr( 'href', pLink);
         tmp = pLink;}
     }
-    //Advertisement
-    function ad() {
-        $('.pub').fadeIn("slow").delay(10000).fadeOut("slow");
+
+function ad() {
+	var rdm = Math.floor(Math.random()*75);
+	$('.pub').attr('style', 'left:'+rdm+'%');
+        $('.pub').fadeIn("slow").delay(30000).fadeOut("slow");
     }
 
+function bg(){
+	var MonTableau = ["#000000", "#FFFFFF", "#A4A4A4", "#D8D8D8", "#E6E6E6"];
+	var rmd = Math.floor(Math.random()*5);
+	return MonTableau[rmd];
+}
 
 $( document ).ready(function() {
-  
     setInterval(loadData,1000);
     var pepe = $.fn.fullpage({
-        slidesColor: ['#424242', '#4BBFC3'],
+        slidesColor: [bg(), '#4BBFC3'],
         anchors: ['firstPage', 'secondPage'],
         menu: '#menu',
         easing: 'easeOutBack'});
     $('.pub').hide();
-    setInterval(ad, 25000);  
+    setInterval(ad, 30000);  
 });
 

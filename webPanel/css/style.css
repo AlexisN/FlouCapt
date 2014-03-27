@@ -1,3 +1,9 @@
+/**
+*	FlouCapt style.css
+*	https://github.com/AlexisN/FlouCapt
+*	
+*	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
+*/
 @charset 'UTF-8';
 
 /*BODY*/
@@ -95,7 +101,7 @@ a{
 /*SECTIONS*/
 
 .section{
-	text-align:center;
+    text-align:center;
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -107,9 +113,17 @@ a{
  	background-size: cover;
  	background-position: center;
  	background-attachment: fixed;
+}
 
+.pub{
+
+ bottom:0%; 
+ position:absolute; 
+ z-index:2
+ left:
 
 }
+
 
 .section.table, .slide.table{
     display: table;
@@ -174,6 +188,3 @@ a{
     overflow: scroll;
 }
 
-/*fieldset,img{
-    border: 0;
-}*/

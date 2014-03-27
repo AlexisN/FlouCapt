@@ -1,3 +1,9 @@
+/**
+*	FlouCapt examples.js
+*	https://github.com/AlexisN/FlouCapt
+*	
+*	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
+*/
 $(document).ready(function(){
 
 	$("#demosMenu").change(function(){

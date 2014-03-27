@@ -15,7 +15,13 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/jquery.fullPage.js"></script>
         <script type="text/javascript" src="js/examples.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>    
+        <script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript">
+	var MonTableau = ["#000000", "#FFFFFF", "#A4A4A4", "#D8D8D8", "#E6E6E6"];
+	var rmd = Math.floor(Math.random()*6);
+	$('body').css('background-color', MonTableau[rdm]);
+	alert(MonTableau[rdm]);
+	</script>
     </head>
 
 <body>
@@ -28,11 +34,11 @@
     </ul>
 
 <!-- First page (Camera)-->
-    <div class="section " id="section0">
+    <div class="section" id="section0">
         <!--This div is empty but if an error occurs, it allowed us to display a message-->
         <div id ="error" class="classname"></div>
         <!--This script display the ad-->
-        <?php echo ('<a href="'.readData("adOneL").'"><img src='.readData("adOne").'alt="Publicité" class="pub" style="left:40%; bottom:5%; position:absolute; z-index:2"/></a>')?>
+        <?php echo ('<a href="'.readData("adOneL").'"><img src='.readData("adOne").'alt="Publicité" class="pub"/></a>')?>
         <!--This tag will display the picture-->
         <img id="picOne" style="" src="" alt="WAIT..."/>
     </div>
