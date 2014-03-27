@@ -15,6 +15,8 @@ The application will have to be compatible with different operating systems like
 
   **Project Manager :** Alexis Nicol
   
+  **Communication Manager :** 
+  
   **Test Manager :** Kévin Bannier
   
   **Documentation Manager :** Mathieu Thomas
