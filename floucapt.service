@@ -1,0 +1,14 @@
+[Unit]
+Description=Floucapt Picture Processing Application
+After=
+
+[Service]
+Type=forking
+PIDFile=/run/floucapt.pid
+ExecStart=/usr/bin/python2 -m floucapt start
+ExecStop=/usr/bin/python2 -m floucapt stop
+ExecReload=/usr/bin/python2 -m floucapt restart
+
+
+[Install]
+WantedBy=multi-user.target

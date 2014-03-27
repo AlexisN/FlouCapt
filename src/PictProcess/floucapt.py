@@ -1,80 +1,54 @@
 #!/bin/env python2
+# -*-coding:UTF-8 -*
 
 from Cleaner import *
 from PictureProcessing import *
 from Camera import *
-from daemon import Daemon
+from Daemon import Daemon
 from Logger import Logger
 import time, sys, cv2, ConfigParser, signal
 
 
 def loadConfig(logger) :
     """
-    Load a parameters since a config file (config.cfg)
+    Load a parameters since a config file (config.ini)
     """
 
-    config = ConfigParser.ConfigParser()
-    config.read('config.cfg')
+#    config = ConfigParser.ConfigParser()
+#    config.read('config.ini')
+#
+#    try:
+#        freqPictures = config.getint('DEFAULT','frequencyPictures')
+#        link = config.get('DEFAULT','link')
+#        logger.info( "The config file has be loaded with success..." )
+#    except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
+#        freqPictures = 10
+#        link = 0
+#        logger.error(   """The config file "config.ini" cannot be opened
+#                           or the data of "config.ini" cannot be loaded""" )
+
+
 
     try:
-        freqPictures = config.getint('DEFAULT','frequencyPictures')
-        link = config.get('DEFAULT','link')
-        logger.info( 'The config file has be loaded with success...' )
+        parser = ConfigParser.SafeConfigParser()
+        parser.read('config.ini')
+    except ConfigParser.ParsingError, err:
+        print 'Could not parse:', err
+        return 10, '0'
+
+    try:
+        freqPictures = parser.getint('DEFAULT','frequencyPictures')
     except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
         freqPictures = 10
-        link = 0
-        logger.error(   """The config file "config.cfg" cannot be opened
-                           or the data of "config.cfg" cannot be loaded""" )
+    try:
+        link = parser.get('DEFAULT','link')
+    except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
+        link = '0'
+
+
     return freqPictures, link
 
 
-
-def signal_handler(signal, frame):
-    global quit
-    quit = True
-
-
-
-def run(logger):
-    """
-    The main function.
-    Start a picture processing application.
-    """
-    global quit
-    quit = False
-    signal.signal(signal.SIGINT, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-
-
-    freqPictures, link = loadConfig(logger)
-
-    while not quit:
-        error = 0
-        value, img = Camera.getPicture( logger, link )
-
-        #if capture picture successful
-        if value == 0:
-            value, rects = PictureProcessing.detectFaces( logger, img )
-            if value == 0:
-                img = PictureProcessing.smoothFaces( rects, img )
-                value = PictureProcessing.savePicture( logger, img )
-                if value != 0:
-                    error = value
-                    PictureProcessing.writeTxtFileError(error)
-            else:
-                error = value
-                PictureProcessing.writeTxtFileError(error)
-        else:
-            error = value
-            PictureProcessing.writeTxtFileError(error)
-
-
-
-        if not quit:
-            # pause
-            time.sleep(freqPictures)
-
-        #Cleaner.run()
 
 
 
@@ -84,42 +58,65 @@ class DaemonImpl(Daemon):
     This class is a concrete implementation of abstract
     daemon.
     '''
-    def __init__(self, pidfile, logger):
-        Daemon.__init__(self, pidfile, stdout='/tmp/floucapt.log', stderr='/tmp/floucapt.log')
+    def __init__(self):
+        Daemon.__init__(self, pidfile='/tmp/floucapt.pid', stdout='/tmp/floucapt.log', stderr='/tmp/floucapt.error')
         self.quit = False
-        self.logger = logger
+        self.logger = Logger()
 
     def signal_handler(self, signal, frame):
         self.quit = True
 
+    def time_start(self):
+        self.startTime = time.time()
+
+    def time_diff(self):
+        endTime = time.time()
+        elapsed = endTime - self.startTime
+        pause = self.freqPictures - elapsed
+
+        if pause > 0:
+            time.sleep(pause)
+
+
+
     def run(self):
-        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGINT , self.signal_handler)
         signal.signal(signal.SIGTERM, self.signal_handler)
 
-        freqPictures, link = loadConfig(logger)
+        self.freqPictures, link = loadConfig(self.logger)
 
         while not self.quit:
 
-            img = Camera.getPicture( link )
+            self.time_start()
 
-            #if capture picture successful
-            if img != None:
+            try:
+                img = Camera.getPicture( self.logger, link )
+
                 rects = PictureProcessing.detectFaces( self.logger, img )
                 img = PictureProcessing.smoothFaces( rects, img )
                 PictureProcessing.savePicture( self.logger, img )
 
+            except Exception, e:
+                PictureProcessing.writeTxtFileError( e.args[0] )
+                del e   # For memory
+
+            # Delete variables in memory
+            try:
+                del img
+                del rects
+            except NameError:
+                pass
+
+
             if not self.quit:
                 # pause
-                time.sleep(freqPictures)
-
-
+                self.time_diff()
 
 
 
 def main(argv):
 
-    logger = Logger()
-    daemon = DaemonImpl('/tmp/floucapt.pid', logger)
+    daemon = DaemonImpl()
 
     if len(argv) == 2:
         if 'start' == argv[1]:
@@ -132,14 +129,14 @@ def main(argv):
         elif 'status' == argv[1]:
                 daemon.status()
         elif 'no-daemon' == argv[1]:
-                run(logger)
+                daemon.run()
         else:
             print 'Unknown command'
             sys.exit(2)
         sys.exit(0)
     # Print some help
     else:
-        print "usage: %s start|stop|status|restart" % argv[0]
+        print "usage: %s start|stop|status|restart|no-daemon" % argv[0]
         sys.exit(2)
 
 

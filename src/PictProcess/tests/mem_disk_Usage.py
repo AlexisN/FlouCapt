@@ -1,6 +1,19 @@
 #!/bin/env python2
 
-import time, os
+import time, os, signal
+from signal import SIGTERM
+
+
+
+def signal_handler(signal, frame):
+    global pidFloucapt
+    os.kill(pidFloucapt, SIGTERM)
+
+    global quit
+    quit = True
+
+
+
 
 if __name__ == '__main__':
 
@@ -9,15 +22,25 @@ if __name__ == '__main__':
 
     if not pid:
         os.chdir('..')
-        os.execv('./Main.py', [''])
+        os.execv('/usr/bin/python2',['python2', 'floucapt.py', 'no-daemon'] )
 
+    global pidFloucapt
+    pidFloucapt = pid
 
-    file = open( 'mem_disk_Usage.csv' ,'a')
-    file.write('pos,memory,disk\n')
-    file.close()
+    signal.signal(signal.SIGINT , signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+    filee = open( 'mem_disk_Usage.csv' ,'w+')
+    filee.write('pos,memory,disk\n')
+    filee.close()
 
     i = 0
-    while True:
+    global quit
+    quit = False
+
+    time.sleep(3)
+
+    while not quit:
         i +=1
         memory = os.popen('pmap -x ' + str(pid) + '|grep total')
         memory = memory.read()
@@ -36,16 +59,14 @@ if __name__ == '__main__':
         disk = disk[ 0 ]
 
 
+        filee = open( 'mem_disk_Usage.csv' ,'a')
+        filee.write(str(i) +',' + memory + ','+ disk+'\n')
+        filee.close()
 
-        file = open( 'mem_disk_Usage.csv' ,'a')
-
-        file.write(str(i) +',' + memory + ','+ disk+'\n')
-
-        file.close()
 
         print "Salut Michel !"
-
-        time.sleep(60)
+        if not quit:
+            time.sleep(10)
 
 
 
