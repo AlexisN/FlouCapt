@@ -3,8 +3,7 @@
     <head>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title><?php echo readData("name"); ?></title>
-        
+
         <!--Import CSS-->
         <link rel="stylesheet" href="css/style.css" />
         
@@ -16,12 +15,6 @@
         <script type="text/javascript" src="js/jquery.fullPage.js"></script>
         <script type="text/javascript" src="js/examples.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript">
-	var MonTableau = ["#000000", "#FFFFFF", "#A4A4A4", "#D8D8D8", "#E6E6E6"];
-	var rmd = Math.floor(Math.random()*6);
-	$('body').css('background-color', MonTableau[rdm]);
-	alert(MonTableau[rdm]);
-	</script>
     </head>
 
 <body>
@@ -38,62 +31,18 @@
         <!--This div is empty but if an error occurs, it allowed us to display a message-->
         <div id ="error" class="classname"></div>
         <!--This script display the ad-->
-        <?php echo ('<a href="'.readData("adOneL").'"><img src='.readData("adOne").'alt="Publicité" class="pub"/></a>')?>
         <!--This tag will display the picture-->
         <img id="picOne" style="" src="" alt="WAIT..."/>
     </div>
 
 <!-- Second page (About us)-->
     <div class="section" id="section1">
-        <p><?php echo(readData("about"))?></p>
         <br/>
         <!--this part give more informations about the project or the place which is filmed, you can change the text and the ad on the Admin Panel thanks to this script-->
-        <?php echo ('<a href="'.readData("adTwoL").'"><img src='.readData("adTwo").'alt="Publicité"/></a>')?>
 
     </div>
 </div>
-<?php
 
-function readData($info){
-
-  $file = file("conf/webConf.ini") or die(writeDefault());
-
-    $retour = "";
-    if($info == "name"){
-        $retour = $file[0];
-    }
-    elseif($info == "adOne"){
-        $retour = $file[1];
-    }
-    elseif($info == "adOneL"){
-        $retour = $file[2];
-    }
-    elseif($info == "adTwo"){
-        $retour = $file[3];
-    }
-    elseif($info == "adTwoL"){
-        $retour = $file[4];
-    }
-    elseif($info == "about"){
-        for( $i = 5; $i < count($file); $i++ ){
-            $retour .= $file[$i];
-        }
-    }
-    return $retour;
-}
-
-function writeDefault(){
-
-        $default = fopen("conf/webConf.ini", "w");// Chemin vers webConf !!! 
-        fwrite($default, "default"."\n");
-        fwrite($default, "default"."\n");
-        fwrite($default, "default"."\n");
-        fwrite($default, "default"."\n");
-        fwrite($default, "default"."\n");
-        fwrite($default, "default"."\n");
-        fclose($default);
-    }
-?>
 
 
 </body>
