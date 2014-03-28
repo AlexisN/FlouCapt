@@ -23,12 +23,12 @@ The application will have to be compatible with different operating systems like
   
 <h3>Technologies used for the project execution</h3>
 <ul>
-<li>Opensuse</li>
+<li>OpenSUSE</li>
 <li>OpenCV</li>
 <li>Python</li>
 <li>Apache</li>
 <li>HTML5</li>
-<li>Framework Django</li>
+<li>PHP</li>
 <li>Jquery</li>
 </ul>
 
