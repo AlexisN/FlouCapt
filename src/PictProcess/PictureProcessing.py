@@ -30,10 +30,10 @@ class PictureProcessing:
             return []
         rects[:, 2:] += rects[:, :2]
 
-        rects[:, 0] -= ((rects[:, 2] - rects[:, 0] ) /5) #x1
-        rects[:, 2] += ((rects[:, 2] - rects[:, 0] ) /5) #x2
-        rects[:, 3] -= ((rects[:, 1] - rects[:, 3] ) /5) #y1
-        rects[:, 1] += ((rects[:, 1] - rects[:, 3] ) /5) #y2
+#        rects[:, 0] -= ((rects[:, 2] - rects[:, 0] ) /5) #x1
+#        rects[:, 2] += ((rects[:, 2] - rects[:, 0] ) /5) #x2
+#        rects[:, 3] -= ((rects[:, 1] - rects[:, 3] ) /5) #y1
+#        rects[:, 1] += ((rects[:, 1] - rects[:, 3] ) /5) #y2
 
 
 
@@ -48,15 +48,39 @@ class PictureProcessing:
         """
         for x1, y1, x2, y2 in rects:
 
-            crop_img = img[y1:y2, x1:x2] # Crop from x1, y1 -> x2, y2
-            crop_img = cv2.GaussianBlur(crop_img,(101,101),0)
+            blur = img[y1:y2, x1:x2] # Crop from x1, y1 -> x2, y2
+            blur = cv2.GaussianBlur(blur,(151,151),0)
 
-            img[y1:y2, x1:x2] = crop_img
+            # I want to put logo on top-left corner, So I create a ROI
+            roi = img[y1:y2, x1:x2 ]
+
+            # Now create a mask of logo and create its inverse mask also
+            width, height, h = blur.shape
+            center = (width/2, height/2)
+            img2gray = blur.copy()
+
+            cv2.rectangle(img2gray, (0,0), (width,height), (0, 0, 0), -1)
+            cv2.ellipse(img2gray, center, center, 0, 360 , 0,(255, 255, 255), -1)
+
+            img2gray = cv2.cvtColor(img2gray,cv2.COLOR_BGR2GRAY)
+            ret, mask = cv2.threshold(img2gray, 0, 255, cv2.THRESH_BINARY)
+            mask_inv = cv2.bitwise_not(mask)
+
+            # Now black-out the area of logo in ROI
+            img1_bg = cv2.bitwise_and(roi,roi,mask = mask_inv)
+
+            # Take only region of logo from logo image.
+            img2_fg = cv2.bitwise_and(blur,blur,mask = mask)
+
+
+            # Put logo in ROI and modify the main image
+            dst = cv2.add(img1_bg,img2_fg)
+            img[y1:y2, x1:x2 ] = dst
 
         return img
 
     @staticmethod
-    def savePicture( logger, img ):
+    def savePicture( logger, floucaptFolder, img ):
         """
         Save the picture passed in parameter
         """
@@ -64,8 +88,9 @@ class PictureProcessing:
         date = time.strftime('%Y-%m-%d', time.localtime())
         hour = time.strftime('%H:%M:%S', time.localtime())
 
-        folder = "/var/www/FlouCapt2/Picture/"+ date + "/"
+#        folder = "/var/www/FlouCapt2/Picture/"+ date + "/"
 #        folder = "out/"+ date + "/"
+        folder = floucaptFolder + "/pictures/"+ date + "/"
 
         #if the folder doesn't exist
         if not os.path.isdir( folder ):
@@ -86,7 +111,7 @@ class PictureProcessing:
             raise Exception(5)
         else:
             logger.info( "Picture has been saved in file : " + folder+file_name )
-            PictureProcessing.writeTxtFile(date, file_name)
+            PictureProcessing.writeTxtFile(logger, floucaptFolder, date, file_name)
 
 #       exception 4  : The folder doesn't exist and could not be created
 #       exception 5  : The picture could not be saved here
@@ -95,7 +120,7 @@ class PictureProcessing:
 
 
     @staticmethod
-    def writeTxtFile(date, fileName) :
+    def writeTxtFile(logger, floucaptFolder, date, fileName) :
         global oldPic
         try:
             oldPic
@@ -103,26 +128,27 @@ class PictureProcessing:
             oldPic = ""
 
         try:
-            file = open("/var/www/FlouCapt2/conf/picture.txt", "w")
-#            file = open("picture.txt", "w")
-            file.write("../FlouCapt2/Picture/"+ date + "/" + fileName + "|")
+#            file = open("/var/www/FlouCapt2/conf/picture.txt", "w")
+            file = open(floucaptFolder + "/conf/picture.txt", "w+")
+
+            file.write("pictures/"+ date + "/" + fileName + "|")
             file.write(oldPic)
             file.close()
-        except (RuntimeError, TypeError, NameError, IOError):
-            pass
+        except (RuntimeError, TypeError, NameError, IOError), e:
+            logger.error("Unable to write picture.txt" + str(e) )
 
-        oldPic = "Picture/"+ date + "/" + fileName
+        oldPic = "pictures/"+ date + "/" + fileName
 
     @staticmethod
-    def writeTxtFileError(error) :
+    def writeTxtFileError(logger, floucaptFolder, error) :
 
         try:
-            file = open("/var/www/fTest/conf/picture.txt", "w")
-#            file = open("picture.txt", "w+")
+#            file = open("/var/www/fTest/conf/picture.txt", "w")
+            file = open(floucaptFolder + "/conf/picture.txt", "w+")
             file.write( str(error) )
             file.close()
-        except (RuntimeError, TypeError, NameError, IOError):
-            pass
+        except (RuntimeError, TypeError, NameError, IOError), e:
+            logger.error("Unable to write picture.txt" + str(e))
 
 
 

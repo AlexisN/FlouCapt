@@ -13,40 +13,37 @@ def loadConfig(logger) :
     """
     Load a parameters since a config file (config.ini)
     """
-
-#    config = ConfigParser.ConfigParser()
-#    config.read('config.ini')
-#
-#    try:
-#        freqPictures = config.getint('DEFAULT','frequencyPictures')
-#        link = config.get('DEFAULT','link')
-#        logger.info( "The config file has be loaded with success..." )
-#    except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
-#        freqPictures = 10
-#        link = 0
-#        logger.error(   """The config file "config.ini" cannot be opened
-#                           or the data of "config.ini" cannot be loaded""" )
-
-
+    #Default values
+    defFreqPictures = 10
+    defLink = '0'
+    defFloucaptFolder = 'out'
 
     try:
-        parser = ConfigParser.SafeConfigParser()
+        parser = ConfigParser.ConfigParser()
         parser.read('config.ini')
     except ConfigParser.ParsingError, err:
-        print 'Could not parse:', err
-        return 10, '0'
+        logger.error("Could not parse:" +  str(err) )
+        return defFreqPictures, defLink, defFloucaptFolder
 
     try:
         freqPictures = parser.getint('DEFAULT','frequencyPictures')
     except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
-        freqPictures = 10
+        freqPictures = defFreqPictures
+        logger.error("The value 'freqPictures' cannot be loaded from config.ini")
     try:
         link = parser.get('DEFAULT','link')
     except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
-        link = '0'
+        link = defLink
+        logger.error("The value 'link' cannot be loaded from config.ini")
+
+    try:
+        floucaptFolder = parser.get('DEFAULT','floucaptFolder')
+    except ConfigParser.NoOptionError, ConfigParser.MissingSectionHeaderError:
+        floucaptFolder = defFloucaptFolder
+        logger.error("The value 'floucaptFolder' cannot be loaded from config.ini")
 
 
-    return freqPictures, link
+    return freqPictures, link, floucaptFolder
 
 
 
@@ -83,7 +80,7 @@ class DaemonImpl(Daemon):
         signal.signal(signal.SIGINT , self.signal_handler)
         signal.signal(signal.SIGTERM, self.signal_handler)
 
-        self.freqPictures, link = loadConfig(self.logger)
+        self.freqPictures, link, floucaptFolder = loadConfig(self.logger)
 
         while not self.quit:
 
@@ -94,10 +91,10 @@ class DaemonImpl(Daemon):
 
                 rects = PictureProcessing.detectFaces( self.logger, img )
                 img = PictureProcessing.smoothFaces( rects, img )
-                PictureProcessing.savePicture( self.logger, img )
+                PictureProcessing.savePicture( self.logger, floucaptFolder, img )
 
             except Exception, e:
-                PictureProcessing.writeTxtFileError( e.args[0] )
+                PictureProcessing.writeTxtFileError(self.logger, floucaptFolder, e.args[0] )
                 del e   # For memory
 
             # Delete variables in memory

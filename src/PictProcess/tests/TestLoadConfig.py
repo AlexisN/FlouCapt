@@ -42,13 +42,13 @@ class TestCamera(unittest.TestCase):
         """)
         f.close()
 
-        self.assertEqual(loadConfig(self.logger), (10, '0'))
+        self.assertEqual(loadConfig(self.logger), (10, '0', 'out'))
 
     def test_loadConfig_2(self):
 
         os.remove('config.ini')
 
-        self.assertEqual(loadConfig(self.logger), (10, '0'))
+        self.assertEqual(loadConfig(self.logger), (10, '0', 'out'))
 
 
     def test_loadConfig_3(self):
@@ -57,7 +57,7 @@ class TestCamera(unittest.TestCase):
         f.write( "" )
         f.close()
 
-        self.assertEqual(loadConfig(self.logger), (10, '0'))
+        self.assertEqual(loadConfig(self.logger), (10, '0', 'out'))
 
 
     def test_loadConfig_4(self):
@@ -66,7 +66,7 @@ class TestCamera(unittest.TestCase):
         f.write( '[DEFAULT]\nlink = 5\n' )
         f.close()
 
-        self.assertEqual(loadConfig(self.logger), (10, '5'))
+        self.assertEqual(loadConfig(self.logger), (10, '5', 'out'))
 
 
 
@@ -76,7 +76,7 @@ class TestCamera(unittest.TestCase):
         f.write( "[DEFAULT]\nlink = http://www.google.fr\n" )
         f.close()
 
-        self.assertEqual(loadConfig(self.logger), (10, 'http://www.google.fr'))
+        self.assertEqual(loadConfig(self.logger), (10, 'http://www.google.fr', 'out'))
 
 
     def test_loadConfig_6(self):
@@ -85,7 +85,27 @@ class TestCamera(unittest.TestCase):
         f.write( "[DEFAULT]\nfrequencyPictures = 15\n")
         f.close()
 
-        self.assertEqual(loadConfig(self.logger), (15, '0'))
+        self.assertEqual(loadConfig(self.logger), (15, '0', 'out'))
+
+    def test_loadConfig_7(self):
+
+        f = open('config.ini','w+')
+        f.write( "[DEFAULT]\nfloucaptFolder = folder\n")
+        f.close()
+
+        self.assertEqual(loadConfig(self.logger), (10, '0', 'folder'))
+
+
+    def test_loadConfig_all(self):
+
+        f = open('config.ini','w+')
+        f.write( "[DEFAULT]\n"
+               + "frequencyPictures = 15\n"
+               + "link = http://www.google.fr\n"
+               + "floucaptFolder = folder\n")
+        f.close()
+
+        self.assertEqual(loadConfig(self.logger), (15, 'http://www.google.fr', 'folder'))
 
 
 
