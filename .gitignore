@@ -1,4 +1,4 @@
 *.pyc
-src/PictProcess/out/
-src/PictProcess/tests/img
+PictProcess/floucapt/out/
+PictProcess/floucapt/tests/img
 
