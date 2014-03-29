@@ -6,6 +6,7 @@ from PictureProcessing import *
 from Camera import *
 from Daemon import Daemon
 from Logger import Logger
+import password
 import time, sys, cv2, ConfigParser, signal
 
 
@@ -127,13 +128,15 @@ def main(argv):
                 daemon.status()
         elif 'no-daemon' == argv[1]:
                 daemon.run()
+        elif 'password' == argv[1]:
+                password.main()
         else:
             print 'Unknown command'
             sys.exit(2)
         sys.exit(0)
     # Print some help
     else:
-        print "usage: %s start|stop|status|restart|no-daemon" % argv[0]
+        print "usage: %s start|stop|status|restart|no-daemon|password" % argv[0]
         sys.exit(2)
 
 

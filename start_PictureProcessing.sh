@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd src/PictProcess
+cd PictProcess/floucapt
 /usr/bin/env python2 floucapt.py no-daemon
