@@ -58,8 +58,9 @@ class DaemonImpl(Daemon):
     '''
     def __init__(self):
         Daemon.__init__(self, pidfile='/tmp/floucapt.pid', stdout='/tmp/floucapt.log', stderr='/tmp/floucapt.error')
-        self.quit = False
-        self.logger = Logger()
+        self.quit    = False
+        self.logger  = Logger()
+        self.cleaner = Cleaner()
 
     def signal_handler(self, signal, frame):
         self.quit = True
@@ -105,7 +106,7 @@ class DaemonImpl(Daemon):
             except NameError:
                 pass
 
-
+            self.cleaner.run(floucaptFolder)
             if not self.quit:
                 # pause
                 self.time_diff()
