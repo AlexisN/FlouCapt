@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/bin/env python2
+# -*-coding:UTF-8 -*
 
 # Execute with
 # $ python floucapt/__main__.py (2.6+)

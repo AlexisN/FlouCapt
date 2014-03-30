@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/env python2
 # -*- coding: utf-8 -*-
 
 import floucapt

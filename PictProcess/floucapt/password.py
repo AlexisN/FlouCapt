@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/bin/env python2
 # -*-coding:UTF-8 -*
 
 def main():
