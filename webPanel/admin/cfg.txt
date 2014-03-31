@@ -1,0 +1,4 @@
+[DEFAULT]
+frequencyPictures = 10
+link = 0
+floucaptFolder = /srv/www/htdocs/flouCapt
