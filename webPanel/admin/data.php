@@ -42,7 +42,7 @@ function readData($info){
   }
 
   if($info == "link" || $info == "frequency"){
-    $cfg = file("/etc/floucapt/config.ini") or die("Not reading cfg");
+    $cfg = file("/etc/floucapt/config.ini") or die("Not reading python config file");
     if($info == "link"){
       $r = split('=', $cfg[2]);
       $retour = $r[1];
