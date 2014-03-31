@@ -6,7 +6,7 @@
 	</head>
 
 	<body>
-
+					<!--Identification panel-->
 					<div id="pan">
 			            <form method="post" action="identification.php">
 			                <p>
@@ -15,7 +15,7 @@
 			                    <br/>
 			                    <input type="text" name="login" id="pseudo" />
 			                    <br />
-			                    <label for="pass">Votre mot de passe :</label>
+			                    <label for="pass">Password :</label>
 			                    <br/>
 			                    <input type="password" name="mdp" id="pass" />
 			                    <br/>

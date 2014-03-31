@@ -1,7 +1,13 @@
+
+
+<!--This document display the admin panel-->
+
+
 <?php
 include('verif.php');
 include('data.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,14 +16,16 @@ include('data.php');
   <link href="css/style.css" media="screen" rel="stylesheet" type="text/css"/>
   <link href="css/uniform.css" media="screen" rel="stylesheet" type="text/css"/>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-  <script type="text/javascript" src="js/jquery.tools.js"></script>
+  <script type="text/javascript" src="js/jquery.tools.js"></script> 
   <script type="text/javascript" src="js/jquery.uniform.min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
 </head>
 
 <body>
 
+	<!--This class contains all the admin panel-->
 	<div class="TTWForm-container">
+
 		<div id="form-title" class="form-title field">
 			<h2>
 				FlouCapt Panel
@@ -25,26 +33,32 @@ include('data.php');
 
 		</div>
 
-		<h3>Please, fill all the form before confirm</h3>
+		<div id="com"><h3>All forms are required</h3></div>
 
+		<!--The form that contains the field that the admin can modify-->
 		<form action="process_form.php" class="TTWForm" method="post" novalidate="">
 
+			<!--This table structures the main part of the admin panel.-->
+			<!--3 columns that contain : The label, the field and the helper-->
 			<table>
 
 				<div id="field1-container" class="field f_100">
 					<tr>
 						<td>
+							<!--Label-->
 							<label for="field1">
-							Link of the IP Camera
+							Link of the video stream
 							</label>
 						</td>
 
 						<td class="td1">
+							<!--Field-->
 							<?php echo('<input name="link" id="field1" required="required" type="text" value="'.readData("link").'">')?>
 						</td>
 
 						<td>
-							<img id="L" src="images/help.gif" onMouseOver="divHelp(0)"></img>
+							<!--Helper-->
+							<img id="L" src="images/help.gif" onMouseOver="divHelp(0)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</div>
@@ -54,7 +68,7 @@ include('data.php');
 					<tr>
 						<td>
 							<label for="field2">
-								Frequency Picture
+								Refresh time to recontact the camera 
 							</label>
 						</td>
 
@@ -62,7 +76,7 @@ include('data.php');
 							<?php echo('<input name="frequency" id="field2" required="required" type="text" value="'.readData("frequency").'">')?>
 						</td>
 						<td>
-							<img id="F" src="images/help.gif" onMouseOver="divHelp(1)"></img>
+							<img id="F" src="images/help.gif" onMouseOver="divHelp(1)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</div>
@@ -79,7 +93,7 @@ include('data.php');
 							<?php echo('<input name="onglet" id="field3" required="required" type="text" value="'.readData("name").'">')?>
 						</td>
 						<td>
-							<img id="N" src="images/help.gif" onMouseOver="divHelp(2)"></img>
+							<img id="N" src="images/help.gif" onMouseOver="divHelp(2)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</div>
@@ -96,7 +110,7 @@ include('data.php');
 							<?php echo('<input name="ad" id="field4" required="required" type="text" value="'.readData("adOne").'">')?>
 						</td>
 						<td>
-							<img id="A" src="images/help.gif" onMouseOver="divHelp(3)"></img>
+							<img id="A" src="images/help.gif" onMouseOver="divHelp(3)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 
@@ -111,7 +125,7 @@ include('data.php');
 							<?php echo('<input name="adL" id="field4" required="required" type="text" value="'.readData("adOneL").'">')?>
 						</td>
 						<td>
-							<img id="lA" src="images/help.gif" onMouseOver="divHelp(4)"></img>
+							<img id="lA" src="images/help.gif" onMouseOver="divHelp(4)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</div>
@@ -128,7 +142,7 @@ include('data.php');
 							<?php echo('<input name="adTwo" id="field5" required="required" type="text" value="'.readData("adTwo").'">')?>
 						</td>
 						<td>
-							<img id="aTwo" src="images/help.gif" onMouseOver="divHelp(5)"></img>
+							<img id="aTwo" src="images/help.gif" onMouseOver="divHelp(5)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 
@@ -143,7 +157,7 @@ include('data.php');
 							<?php echo('<input name="adTwoL" id="field5" required="required" type="text" value="'.readData("adTwoL").'">')?>
 						</td>
 							<td>
-							<img id="lATwo" src="images/help.gif" onMouseOver="divHelp(6)"></img>
+							<img id="lATwo" src="images/help.gif" onMouseOver="divHelp(6)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</div>
@@ -152,15 +166,15 @@ include('data.php');
 					<tr>
 						<td>
 							<label for="field6">
-								Advertisement time visible
+								Advertisement display duration time
 							</label>
 						</td>
 
 						<td class="td1">
-							<?php echo('<input name="adV" id="field6" required="required" type="number" value="'.readData("adV").'">')?>
+							<?php echo('<input name="adV" id="field6" required="required" type="text" value="'.readData("adV").'">')?>
 						</td>
 						<td>
-							<img id="tV" src="images/help.gif" onMouseOver="divHelp(7)"></img>
+							<img id="tV" src="images/help.gif" onMouseOver="divHelp(7)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</div>
@@ -169,15 +183,15 @@ include('data.php');
 					<tr>
 						<td>
 							<label for="field7">
-								Advertisement Frequency
+								How fast the picture reappear
 							</label>
 						</td>
 
 						<td class="td1">
-							<?php echo('<input name="adI" id="field7" required="required" type="number" value="'.readData("adI").'">')?>
+							<?php echo('<input name="adI" id="field7" required="required" type="text" value="'.readData("adI").'">')?>
 						</td>
 						<td>
-							<img id="tI" src="images/help.gif" onMouseOver="divHelp(8)"></img>
+							<img id="tI" src="images/help.gif" onMouseOver="divHelp(8)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 
 					</tr>
@@ -194,7 +208,7 @@ include('data.php');
 						<?php echo('<input name="mdp" id="field7" required="required" type="text" value="'.readData("mdp").'">')?>
 						</td>
 						<td>
-							<img id="tI" src="images/help.gif" onMouseOver="divHelp(10)"></img>
+							<img id="tI" src="images/help.gif" onMouseOver="divHelp(10)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 
 					</tr>
@@ -209,13 +223,14 @@ include('data.php');
 							</label>
 						</td>
 						<td>
-							<img id="about" src="images/help.gif" onMouseOver="divHelp(9)"></img>
+							<img id="about" src="images/help.gif" onMouseOver="divHelp(9)" onMouseOut="$('#boxHelp').fadeOut();"></img>
 						</td>
 					</tr>
 				</table>
 				<?php echo('<textarea rows="3" cols="100" name="about" id="field6" required="required">'.readData("about").'</textarea>')?>
 				</div>
 
+			<!--Button to confirm the new configuration-->
 			</br>
 			<div id="form-submit" class="field f_100 clearfix submit">
 				<input value="Confirm" type="submit" class="confirm"></input>

@@ -1,8 +1,6 @@
 /**
-*	FlouCapt ejs_slidein.js
-*	https://github.com/AlexisN/FlouCapt
-*	
-*	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
+*	ejs_slidein.js
+*	@author Skel
 */
 if(!document.all && document.getElementById)
          ejs_hauteur = window.innerHeight-400;

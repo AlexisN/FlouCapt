@@ -73,7 +73,8 @@ $(".TTWForm").validator({effect:'labelMate'}).submit(function(e){
                 form.fadeOut('fast', function(){
                     $('#boxHelp').hide();
                     $('.confirm').hide();
-                    $('.TTWForm-container').append('<h2 class="success-message">Success!<BR><a href="admin.php"> Return</a></h2>');
+		    $('#com').hide();
+                    $('.TTWForm-container').append('<h2 class="success-message">Success!<BR><a href="../index.php"> Return</a></h2>');
                 });
             }
             else validator.invalidate(data.errors);
@@ -103,4 +104,5 @@ function divHelp(num){
     "Change admin Password"];
 
     $('#boxHelp').text(explain[num]); 
-    $('#boxHelp').fadeIn(); }
+    $('#boxHelp').fadeIn();
+}

@@ -5,6 +5,7 @@
 *
 *	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
 */
+
 $form = new ProcessForm();
 $form->field_rules = array(
     'field1'=>'required',
@@ -96,7 +97,7 @@ class ProcessForm
         }
     }
 
-    /** Execution if form it's good */
+    /**If the new form respects the model : this function is applied*/
     function process()
     {
 
@@ -108,11 +109,9 @@ class ProcessForm
         $adTwo = $_POST['adTwo'];
         $adTwoL = $_POST['adTwoL'];
         $adV = $_POST['adV'];
-        $adVL=strlen($adV);
         $adI = $_POST['adI'];
-        $adIL=strlen($adV);
         $about = $_POST['about'];
-        $fOne = fopen("/etc/floucapt/webConf.ini", "w+");
+        $fOne = fopen("/etc/floucapt/webConf.ini", "w+") or die("cannot be open webConf.ini");
         fwrite($fOne, $mdp."\n");
         fwrite($fOne, $name."\n");
         fwrite($fOne, $adOne."\n");
@@ -125,21 +124,18 @@ class ProcessForm
         fclose($fOne);
 
     //Configuration config file python application
-        $reader = file('/etc/floucapt/config.ini');
+        $reader = file('/etc/floucapt/config.ini') or die("cannot be read config.ini");
         $line =  $reader[3];
 
         $link = $_POST['link'];
         $frequency = $_POST['frequency'];
-        $fTwo = fopen("cfg.txt", "w+");
+        $fTwo = fopen("/etc/floucapt/config.ini", "w+") or die("cannot be write into config.ini");
         fwrite($fTwo, "[DEFAULT]\n");
         fwrite($fTwo, "frequencyPictures =".$frequency."\n");
         fwrite($fTwo, "link =".$link."\n");
         fwrite($fTwo, $line);
         fclose($fTwo);
-
-
-
-    }
+}
 
     /** Error view function */
     function set_error($field, $rule)
@@ -189,3 +185,4 @@ class ProcessForm
 
 
 ?>
+ 
