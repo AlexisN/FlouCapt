@@ -1,0 +1,45 @@
+/**
+*	FlouCapt index.css
+*	https://github.com/AlexisN/FlouCapt
+*	
+*	@author Bannier Kevin, Thomas Mathieu, Nicol Alexis
+*/
+
+/*BODY*/
+body{
+	background: url('../images/bg-admin.jpg') no-repeat;
+	background-size: cover;
+	background-position: center 0;
+	background-attachment: fixed;
+}
+
+/*INPUT*/
+input{
+	border:1px solid;
+	border-radius:20px;
+}
+
+/*PANEL*/
+#pan{
+ 	position : absolute;
+ 	left : 5%;
+ 	top : 10%;
+
+ 	border:1px solid;
+	border-radius:20px;
+	padding-top:20px;
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom: 10px;
+	background-color: #09D2D6;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+/*INPUT CONNECTION*/
+.connex{
+	padding:5px;
+}
+
+.connex:hover{
+	background-color : white;
+}
