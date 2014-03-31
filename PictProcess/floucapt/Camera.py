@@ -9,18 +9,30 @@ class Camera:
 
     @staticmethod
     def getPicture( logger, link ):
-        """return a picture from a stream of an webcam/ipwebcam
+        """
+        :param logger: Logger to write message
+        return a picture from a stream of an webcam/ipwebcam
+        raise exception if It's unable to contact the camera
         """
 
         # Determine if the link is a integer or a string
+        # Indeed, VideoCapture method should receive as parameter :
+        #   An integer to a device ( for a webcam ...)
+        #   A string to a web url of video stream of camera
         try:
             var = int(link)
         except ValueError:
             var = link
 
 
-        vc = cv2.VideoCapture( var )
+        # Contact the camera
+        try:
+            vc = cv2.VideoCapture( var )
+        except:
+            logger.error("Unable to contact the camera")
+            raise Exception(2)
 
+        # For technical reason, the program must wait a moment
         time.sleep(4)
 
 
@@ -38,10 +50,4 @@ class Camera:
             logger.error("The picture retrieve by the camera is not valid")
             raise Exception(1)
 
-
-
-
-
-#       exception = 1  : The picture retrieve by the camera is not valid
-#       exception = 2  : unable to contact the camera
         return img;

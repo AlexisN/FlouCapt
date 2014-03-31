@@ -41,26 +41,6 @@ class TestLogger(unittest.TestCase):
         self.assertNotEqual( mes.find("INFO"), -1)
 
 
-    def test_debug(self):
-        oldStdOut = sys.stdout
-        #Redirection vers le fichier
-        sys.stdout.flush()
-        sys.stdout = open(self.nameFi, 'w+')
-
-
-        self.logger.debug( self.message )
-
-
-        f = file(self.nameFi, 'r')
-        mes = f.read()
-        f.close()
-
-        sys.stdout = oldStdOut
-        self.assertNotEqual( mes.find(self.message), -1)
-        self.assertNotEqual( mes.find("DEBUG"), -1)
-
-
-
 
     def test_error(self):
         oldStdErr = sys.stderr

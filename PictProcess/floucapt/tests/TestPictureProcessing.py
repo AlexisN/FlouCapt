@@ -11,8 +11,6 @@ from PictureProcessing import PictureProcessing
 class Logger:
     def info(self, message):
         pass
-    def debug(self, message):
-        pass
     def error(self, message):
         pass
 
