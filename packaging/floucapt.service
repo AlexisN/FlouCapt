@@ -4,7 +4,9 @@ After=
 
 [Service]
 Type=forking
-PIDFile=/run/floucapt.pid
+User=floucapt
+Group=floucapt
+PIDFile=/tmp/floucapt.pid
 ExecStart=/usr/bin/python2 -m floucapt start
 ExecStop=/usr/bin/python2 -m floucapt stop
 ExecReload=/usr/bin/python2 -m floucapt restart
